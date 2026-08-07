@@ -1,0 +1,215 @@
+@import "tailwindcss";
+
+/*
+ * Design tokens.
+ *
+ * Values come from the validated reference palette. Dark steps are chosen for
+ * the dark surface rather than flipped, and are declared under both the media
+ * query and the `data-theme` scope so an explicit toggle wins in either
+ * direction.
+ */
+:root {
+  color-scheme: light;
+
+  --surface-1: #fcfcfb;
+  --surface-2: #f9f9f7;
+  --surface-3: #f2f2ee;
+
+  --text-primary: #0b0b0b;
+  --text-secondary: #52514e;
+  --text-muted: #898781;
+
+  --gridline: #e1e0d9;
+  --axis: #c3c2b7;
+  --border: rgba(11, 11, 11, 0.1);
+
+  /* Diverging pair for the risk waterfall: red adds risk, blue credits it. */
+  --pole-risk: #e34948;
+  --pole-credit: #2a78d6;
+  --neutral-mid: #f0efec;
+
+  /* Single hue for magnitude (premiums, durations). */
+  --series-1: #2a78d6;
+  --series-1-soft: #cde2fb;
+
+  /* Status — always shipped with a text label, never color alone. */
+  --status-good: #0ca30c;
+  --status-warning: #fab219;
+  --status-serious: #ec835a;
+  --status-critical: #d03b3b;
+  --delta-good: #006300;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:where(:not([data-theme="light"])) {
+    color-scheme: dark;
+
+    --surface-1: #1a1a19;
+    --surface-2: #0d0d0d;
+    --surface-3: #232322;
+
+    --text-primary: #ffffff;
+    --text-secondary: #c3c2b7;
+    --text-muted: #898781;
+
+    --gridline: #2c2c2a;
+    --axis: #383835;
+    --border: rgba(255, 255, 255, 0.1);
+
+    --pole-risk: #e66767;
+    --pole-credit: #3987e5;
+    --neutral-mid: #383835;
+
+    --series-1: #3987e5;
+    --series-1-soft: #184f95;
+
+    --delta-good: #0ca30c;
+  }
+}
+
+:root[data-theme="dark"] {
+  color-scheme: dark;
+
+  --surface-1: #1a1a19;
+  --surface-2: #0d0d0d;
+  --surface-3: #232322;
+
+  --text-primary: #ffffff;
+  --text-secondary: #c3c2b7;
+  --text-muted: #898781;
+
+  --gridline: #2c2c2a;
+  --axis: #383835;
+  --border: rgba(255, 255, 255, 0.1);
+
+  --pole-risk: #e66767;
+  --pole-credit: #3987e5;
+  --neutral-mid: #383835;
+
+  --series-1: #3987e5;
+  --series-1-soft: #184f95;
+
+  --delta-good: #0ca30c;
+}
+
+html,
+body {
+  background: var(--surface-2);
+  color: var(--text-primary);
+  font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
+}
+
+* {
+  border-color: var(--border);
+}
+
+/* ------------------------------------------------------------------ */
+/* Primitives                                                          */
+/* ------------------------------------------------------------------ */
+
+.card {
+  background: var(--surface-1);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+}
+
+.hairline {
+  border-color: var(--border);
+}
+
+.ink-secondary {
+  color: var(--text-secondary);
+}
+.ink-muted {
+  color: var(--text-muted);
+}
+
+.tnum {
+  font-variant-numeric: tabular-nums;
+}
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.375rem;
+  padding: 0.125rem 0.5rem;
+  border-radius: 999px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  line-height: 1.5;
+  border: 1px solid var(--border);
+  white-space: nowrap;
+}
+
+.badge-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 999px;
+  flex: none;
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  border-radius: 8px;
+  padding: 0.5rem 0.9rem;
+  font-size: 0.875rem;
+  font-weight: 600;
+  border: 1px solid var(--border);
+  background: var(--surface-3);
+  color: var(--text-primary);
+  cursor: pointer;
+  transition: opacity 120ms ease;
+}
+.btn:hover:not(:disabled) {
+  opacity: 0.82;
+}
+.btn:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+.btn-primary {
+  background: var(--series-1);
+  border-color: transparent;
+  color: #ffffff;
+}
+
+.log-line {
+  font-family: ui-monospace, "SF Mono", Menlo, monospace;
+  font-size: 0.75rem;
+  line-height: 1.55;
+  color: var(--text-secondary);
+}
+
+/* Wide content scrolls inside its own container; the page never does. */
+.scroll-x {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+table.data {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.8125rem;
+}
+table.data th {
+  text-align: left;
+  font-weight: 600;
+  color: var(--text-muted);
+  font-size: 0.6875rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  padding: 0.5rem 0.75rem;
+  border-bottom: 1px solid var(--border);
+  white-space: nowrap;
+}
+table.data td {
+  padding: 0.625rem 0.75rem;
+  border-bottom: 1px solid var(--gridline);
+  vertical-align: top;
+}
+table.data tr:last-child td {
+  border-bottom: none;
+}
